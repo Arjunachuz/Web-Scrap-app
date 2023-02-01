@@ -1,0 +1,85 @@
+{% load static %}
+{% static 'product_images' as baseUrl %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>Document</title>
+    <style>
+        .gradient-custom-2 {
+/* fallback for old browsers */
+background: #fccb90;
+
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+}
+
+@media (min-width: 768px) {
+.gradient-form {
+height: 100vh !important;
+}
+}
+@media (min-width: 769px) {
+.gradient-custom-2 {
+border-top-right-radius: .3rem;
+border-bottom-right-radius: .3rem;
+}
+}
+
+    </style>
+</head>
+<body>
+    <section class="h-100 gradient-form" style="background-color: #eee;">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-xl-10">
+              <div class="card rounded-3 text-black">
+                <div class="row g-0">
+                  <div class="col-lg-12 d-flex align-items-center gradient-custom-2">
+                    <div style="margin-bottom: 150px; width: 100%; text-align: center;" class="text-white px-3 py-4 p-md-5">
+                      <label style="font-size: 30px; text-align: center;" class="form-label" for="form2Example11">{{product.title}}</label>
+                      <div class="form-outline mb-4" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                          <h2>{{product.price}}</h2>
+                          <br>
+                          <div style="border-radius: 5px; background-color: green; max-width: fit-content; padding: 0px 5px;">
+                            <p class="m-0" style="font-size: larger;">{{product.rating}}<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMyIgaGVpZ2h0PSIxMiI+PHBhdGggZmlsbD0iI0ZGRiIgZD0iTTYuNSA5LjQzOWwtMy42NzQgMi4yMy45NC00LjI2LTMuMjEtMi44ODMgNC4yNTQtLjQwNEw2LjUuMTEybDEuNjkgNC4wMSA0LjI1NC40MDQtMy4yMSAyLjg4Mi45NCA0LjI2eiIvPjwvc3ZnPg==" alt=""></p>
+                          </div>
+                          <br>
+                          {% if product.size %}
+                          <h2>Size : {{product.size}}</h2>
+                          {% endif %}
+                          {% if product.size %}
+                          <p>{{product.description}}</p>
+                          {% endif %}
+                      </div>
+                     
+                      <div class="col-lg-12" style="height: max-content; display: flex; justify-content:flex-start; align-items: center; flex-wrap: wrap; gap: 20px;">
+                        {% for image in images %}
+                        <div class="card" style="width: 200px; height: 200px; margin: 15px;">
+                          <img style="width: 200px; height: 200px; object-fit:contain;" src="{{image.image.url}}" class="card-img-top" alt="">
+                        </div>
+                        {% endfor %}
+                      </div>
+                      <div class="text-center pt-1 mb-5 pb-1">
+                        <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit"><a href="{% url 'list_products' %}">Back</a></button>
+                      </div> 
+                      
+                    
+                      
+                    </div>
+                    </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>Document</title>
+    
+    <style>
+        .gradient-custom-2 {
+/* fallback for old browsers */
+background: #fccb90;
+
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+}
+
+@media (min-width: 768px) {
+.gradient-form {
+height: 100vh !important;
+}
+}
+@media (min-width: 769px) {
+.gradient-custom-2 {
+border-top-right-radius: .3rem;
+border-bottom-right-radius: .3rem;
+}
+}
+    </style>
+</head>
+<body>
+    <section class="h-100 gradient-form" style="background-color: #eee;">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-xl-10">
+              <div class="card rounded-3 text-black">
+                <div class="row g-0">
+                  <div class="col-lg-6">
+                    <div class="card-body p-md-5 mx-md-4">
+      
+                      <div class="text-center">
+                        <img src="https://static.vecteezy.com/system/resources/thumbnails/007/414/765/small/illustration-logo-eyes-free-vector.jpg"
+                          style="width: 185px;" alt="logo">
+                        <h4 class="mt-1 mb-5 pb-1">Web Scrape App</h4>
+                      </div>
+      
+                      <form action="{% url 'scrape_product' %}" method="post">
+                        {% csrf_token %}
+                        <p>Please drop the url here</p>
+      
+                        <div class="form-outline mb-4">
+                          <input type="url" id="form2Example11" class="form-control"
+                            placeholder="Enter the url" name="url" />
+                          <!-- <label class="form-label" for="form2Example11">Drop the URL</label> -->
+                        </div>
+                        <div class="text-center pt-1 mb-5 pb-1">
+                          <a href=""><button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">Find</button></a>
+                          <!-- <a class="text-muted" href="#!">find</a> -->
+                        </div> 
+      
+      
+                        <!-- <div class="form-outline mb-4">
+                          <input type="password" id="form2Example22" class="form-control" />
+                          <label class="form-label" for="form2Example22">Password</label>
+                        </div>
+      
+                        
+                        <div class="d-flex align-items-center justify-content-center pb-4">
+                          <p class="mb-0 me-2">Don't have an account?</p>
+                          <button type="button" class="btn btn-outline-danger">Create new</button>
+                        </div> -->
+      
+                      </form>
+      
+                    </div>
+                  </div>
+                  <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+                    <div style="margin-bottom: 150px; margin-left: 80px;" class="text-white px-3 py-4 p-md-5">
+                      <label class="form-label" for="form2Example11">Select Category</label>
+                      <div class="form-outline mb-4">
+                        <form action="{% url 'list_products' %}" method="post">
+                          {% csrf_token %}
+                          {{ form.category }}
+                        <!--  -->
+                      </div>
+                      <div class="text-center pt-1 mb-5 pb-1">
+                        <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit ">SUBMIT</button>
+                        <!-- <a class="text-muted" href="#!">Forgot password?</a> -->
+                      </div>
+                    </form>
+                    
+                      <div class="p-1" style=" border-radius: 10px; width: 100%;" ><ul>
+                        {% for product in products %}
+                        <li style="color: black;"><p style="color: black;"><input type="url" id="form2Example11" class="form-control"
+                          placeholder="Enter the url" name="url" value="{{ product.url }}" /></p></li>
+                        {% endfor %}
+                      </ul></div>
+                      
+                    </div>
+                   
+                    </div>
+                   
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+</body>
+<script>
+  let timer;
+  document.querySelector('input[name="url"]').addEventListener('input', function() {
+      clearTimeout(timer);
+      timer = setTimeout(function() {
+          document.querySelector('#scrape-form').dispatchEvent(new Event('submit'));
+      }, 3000);
+  });
+
+  document.querySelector('#scrape-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      clearTimeout(timer);
+      const formData = new FormData(event.target);
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', '/');
+      xhr.onload = function() {
+          if (xhr.status === 200) {
+              const data = JSON.parse(xhr.responseText);
+              let html = '';
+              for (const key in data) {
+                  html += `<p><strong>${key}:</strong> ${data[key]}</p>`;
+              }
+              document.querySelector('#scraped-data').innerHTML = html;
+          }
+      };
+      xhr.send(formData);
+  });
+</script>
+</html>
